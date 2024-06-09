@@ -3,25 +3,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftServer",
+    name: "BetterSwiftAX",
     platforms: [.macOS(.v10_15)],
     products: [
         .library(
-            name: "SwiftServer",
-            type: .dynamic,
-            targets: ["SwiftServer"]
+            name: "BetterSwiftAX",
+            targets: ["AccessibilityControl"]
         ),
-        // The dynamic target will cause linker errors in Xcode.
-        // This target can be selected in Xcode for development.
-        .library(
-            name: "SwiftServer-Auto",
-            targets: ["SwiftServer"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../../node_modules/node-swift"),
-        .package(url: "https://github.com/sindresorhus/ExceptionCatcher", from: "2.0.1"),
-        .package(url: "https://github.com/TextsHQ/PHTCommon.git", .revision("c37b857c81d9e49ebc827431d38432f07d4511fa"))
     ],
     targets: [
         .target(
@@ -38,21 +26,5 @@ let package = Package(
             name: "AccessibilityControl",
             dependencies: ["CAccessibilityControl", "WindowControl"]
         ),
-        .target(
-            name: "SwiftServer",
-            dependencies: [
-                "AccessibilityControl",
-                "WindowControl",
-                "ExceptionCatcher",
-                .product(name: "NodeAPI", package: "node-swift"),
-                .product(name: "NodeModuleSupport", package: "node-swift"),
-                .product(name: "PHTClient", package: "PHTCommon"),
-                "CUnfairLock"
-            ]
-        ),
-        .target(
-            name: "CUnfairLock",
-            dependencies: []
-        )
     ]
 )
